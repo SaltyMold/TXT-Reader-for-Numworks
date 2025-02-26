@@ -18,7 +18,6 @@ void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk
       line[line_length++] = *text++;
     }
 
-    // Si la ligne est trop longue, revenir au dernier espace
     if (line_length == max_line_length && *text && *text != ' ' && *text != '\n') {
       if (word_end > 0) {
         text -= (line_length - word_end); 
