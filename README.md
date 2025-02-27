@@ -69,7 +69,7 @@ To build your own app, start by cloning the repository:
 ```sh
 git clone https://github.com/SaltyMold/TXT-Reader.git
 ```
-Inside the project, you'll find eadk.h, which provides essential functions for interacting with the calculator. Modify main.c to implement your own code.
+Inside the project, you'll find [eadk.h](https://github.com/numworks/epsilon/blob/master/eadk/include/eadk/eadk.h), which provides essential functions for interacting with the [calculator](https://en.wikipedia.org/wiki/NumWorks). Modify main.c to implement your own code.
 Additionally, make sure to include an icon.png with dimensions 55×56 pixels to serve as your app’s icon. Once your modifications are done, link the app with [nwlink](https://www.npmjs.com/package/nwlink) and enjoy your app!
 
 ## Special thanks 
