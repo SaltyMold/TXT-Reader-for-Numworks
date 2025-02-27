@@ -1,4 +1,4 @@
-# TxtReader
+# TXT-Reader
 This app is a [TXT](https://en.wikipedia.org/wiki/Text_file) reader that runs on the [NumWorks calculator](https://www.numworks.com).
 
 ## Install the app
