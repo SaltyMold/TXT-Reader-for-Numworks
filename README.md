@@ -31,27 +31,51 @@ To install this app, you'll need to:
 
 To build this sample app, you will need to install the [embedded ARM toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain) and [Node.js](https://nodejs.org/en/) 18. The C SDK for Epsilon apps is shipped as an npm module called [nwlink](https://www.npmjs.com/package/nwlink) v0.0.16.
 
-```sh
-#debian
+### Debian
 
+```sh
 sudo apt install -y build-essential git gcc-arm-none-eabi binutils-arm-none-eabi nodejs npm && npm install -g n && sudo n 18 && npm install -g nwlink@0.0.16
 git clone https://github.com/SaltyMold/TXT-Reader.git
 make clean && make build
 ```
 
+### Windows
+
+Install msys2 from [the MSYS2 Github](https://github.com/msys2/msys2-installer/releases/download/2025-02-21/msys2-x86_64-20250221.exe) and open the msys2.exe file.
+Download the .zip from [the Node Github](https://github.com/actions/node-versions/releases/download/18.20.7-13438827950/node-18.20.7-win32-x64.7z), extract it, and set the variable.
 
 ```sh
-#windows
+#MSYS2
 
-#install msys2 from https://github.com/msys2/msys2-installer/releases/download/2025-02-21/msys2-x86_64-20250221.exe and open the msys2.exe file.
 pacman -Syu
 
-#Download the .zip from https://github.com/actions/node-versions/releases/download/18.20.7-13438827950/node-18.20.7-win32-x64.7z, extract it, and set the variable.
 npm install -g nwlink@0.0.16
-nwlink --version 
+nwlink --version
+```
 
-pacman -S --noconfirm make
-make --version
+```ps
+#PowerShell
+
+$env:ChocolateyInstall = "$env:LOCALAPPDATA\Programs\choco"
+[System.Environment]::SetEnvironmentVariable("ChocolateyInstall", $env:ChocolateyInstall, "User")
+
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+$env:Path += ";$env:ChocolateyInstall\bin"
+[System.Environment]::SetEnvironmentVariable("Path", $env:Path, "User")
+
+choco install make --version=4.3 -y --force
+
+choco --version
+```
+
+```sh
+#MSYS2
+
+#Set the MSYS2 path with 
+export PATH=$PATH:/c/Users/UserName/AppData/Local/Programs/choco/make/bin
 
 pacman -S --noconfirm mingw-w64-x86_64-arm-none-eabi-gcc
 arm-none-eabi-gcc --version
