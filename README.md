@@ -24,6 +24,8 @@ To build this sample app, you will need to install the [embedded ARM toolchain](
 #debian
 
 sudo apt install -y build-essential git gcc-arm-none-eabi binutils-arm-none-eabi nodejs npm && npm install -g n && sudo n 18 && npm install -g nwlink@0.0.16
+git clone https://github.com/SaltyMold/TXT-Reader.git
+make clean && make build
 ```
 
 You should now have a `output/app.nwa` file that you can distribute! Anyone can now install it on their calculator from the [NumWorks online uploader](https://my.numworks.com/apps).
