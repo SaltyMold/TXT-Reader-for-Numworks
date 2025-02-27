@@ -42,12 +42,16 @@ make clean && make build
 ### Windows
 
 Install msys2 from [the MSYS2 Github](https://github.com/msys2/msys2-installer/releases/download/2025-02-21/msys2-x86_64-20250221.exe) and open the msys2.exe file.
-Download the .zip from [the Node Github](https://github.com/actions/node-versions/releases/download/18.20.7-13438827950/node-18.20.7-win32-x64.7z), extract it, and set the variable.
+Download the .zip from [the Node Github](https://github.com/actions/node-versions/releases/download/18.20.7-13438827950/node-18.20.7-win32-x64.7z), and extract it.
 
 ```sh
 #MSYS2
 
 pacman -Syu
+
+#Replace with the reel node path
+echo 'export PATH="/c/Users/UserName/AppData/Local/Programs/node-18.20.7-win32-x64:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 
 npm install -g nwlink@0.0.16
 nwlink --version
@@ -56,6 +60,7 @@ nwlink --version
 ```ps
 #PowerShell
 
+#You can chose a diferent path
 $env:ChocolateyInstall = "$env:LOCALAPPDATA\Programs\choco"
 [System.Environment]::SetEnvironmentVariable("ChocolateyInstall", $env:ChocolateyInstall, "User")
 
@@ -65,17 +70,18 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocola
 
 $env:Path += ";$env:ChocolateyInstall\bin"
 [System.Environment]::SetEnvironmentVariable("Path", $env:Path, "User")
+choco --version
 
 choco install make --version=4.3 -y --force
-
-choco --version
+make --version
 ```
 
 ```sh
 #MSYS2
 
-#Set the MSYS2 path with 
-export PATH=$PATH:/c/Users/UserName/AppData/Local/Programs/choco/make/bin
+#Replace with the reel make path
+echo 'export PATH="/c/Users/UserName/AppData/Local/Programs/choco/make/bin:$PATH"' >> ~/.bashrc 
+source ~/.bashrc
 
 pacman -S --noconfirm mingw-w64-x86_64-arm-none-eabi-gcc
 arm-none-eabi-gcc --version
