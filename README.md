@@ -50,6 +50,9 @@ pacman -Syu
 npm install -g nwlink@0.0.16
 nwlink --version 
 
+pacman -S --noconfirm make
+make --version
+
 pacman -S --noconfirm mingw-w64-x86_64-arm-none-eabi-gcc
 arm-none-eabi-gcc --version
 
