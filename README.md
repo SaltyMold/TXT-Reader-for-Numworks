@@ -23,12 +23,7 @@ To build this sample app, you will need to install the [embedded ARM toolchain](
 ```sh
 #debian
 
-sudo apt install -y build-essential git imagemagick libx11-dev libxext-dev \
-    libfreetype6-dev libpng-dev libjpeg-dev pkg-config gcc-arm-none-eabi \
-    binutils-arm-none-eabi nodejs npm  
-npm install -g n  
-sudo n 18  
-npm install -g nwlink@0.0.16
+sudo apt install -y build-essential git gcc-arm-none-eabi binutils-arm-none-eabi nodejs npm && npm install -g n && sudo n 18 && npm install -g nwlink@0.0.16
 ```
 
 You should now have a `output/app.nwa` file that you can distribute! Anyone can now install it on their calculator from the [NumWorks online uploader](https://my.numworks.com/apps).
