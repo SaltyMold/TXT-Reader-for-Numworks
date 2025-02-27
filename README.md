@@ -1,5 +1,16 @@
-# TXT-Reader
-This app is a [TXT](https://en.wikipedia.org/wiki/Text_file) reader that runs on the [NumWorks calculator](https://www.numworks.com).
+<h1 align="center">TXT Reader for Numworks Calculator</h1>
+<p align="center">
+    <img alt="Version" src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&color=blue">
+    <img alt="Stars" src="https://img.shields.io/github/stars/SaltyMold/TXT-Reader?style=for-the-badge&color=magenta">
+    <img alt="Forks" src="https://img.shields.io/github/forks/SaltyMold/TXT-Reader?color=cyan&style=for-the-badge&color=purple">
+    <img alt="License" src="https://img.shields.io/github/license/SaltyMold/TXT-Reader?style=for-the-badge&color=blue">
+    <br>
+    <a href="https://github.com/SaltyMold"><img title="Developer" src="https://img.shields.io/badge/Developer-SaltyMold-red?style=flat-square"></a>
+    <img alt="Maintained" src="https://img.shields.io/badge/Maintained-No-blue?style=flat-square">
+    <img alt="Written In" src="https://img.shields.io/badge/Written%20In-C-yellow?style=flat-square">
+</p>
+
+_This app is a [TXT](https://en.wikipedia.org/wiki/Text_file) reader that runs on the [NumWorks calculator](https://www.numworks.com), allowing users to open and read plain text files directly on their device. It provides a simple interface for navigating through text, making it ideal for viewing notes, documents, and other text-based content on the go._
 
 ## Install the app
 
@@ -28,6 +39,7 @@ git clone https://github.com/SaltyMold/TXT-Reader.git
 make clean && make build
 ```
 
+
 ```sh
 #windows
 
@@ -50,6 +62,15 @@ make clean && make build
 ```
 
 You should now have a `output/app.nwa` file that you can distribute! Anyone can now install it on their calculator from the [NumWorks online uploader](https://my.numworks.com/apps).
+
+## Build your own app
+To build your own app, start by cloning the repository:
+
+```sh
+git clone https://github.com/SaltyMold/TXT-Reader.git
+```
+Inside the project, you'll find eadk.h, which provides essential functions for interacting with the calculator. Modify main.c to implement your own code.
+Additionally, make sure to include an icon.png with dimensions 55×56 pixels to serve as your app’s icon. Once your modifications are done, link the app with [nwlink](https://www.npmjs.com/package/nwlink) and enjoy your app!
 
 ## Special thanks 
 
