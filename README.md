@@ -15,7 +15,7 @@ _This app is a [TXT](https://en.wikipedia.org/wiki/Text_file) reader that runs o
 ## Install the app
 
 To install this app, you'll need to:
-1. Download the latest `TXT-Reader.nwa` file from the [Releases](https://github.com/SaltyMold/TXT-Reader-for-Numworks-for-Numworks/releases) page
+1. Download the latest `TXT-Reader.nwa` file from the [Releases](https://github.com/SaltyMold/TXT-Reader-for-Numworks/releases) page
 2. Choose a `txt` file you want to read on your calculator.
 3. Connect your NumWorks calculator to your computer using a USB cable.  
 4. Head to [my.numworks.com/apps](https://my.numworks.com/apps) to send the `nwa` file on your calculator along the `txt` file.
