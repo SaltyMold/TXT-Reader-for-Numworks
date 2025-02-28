@@ -10,15 +10,15 @@
     <img alt="Written In" src="https://img.shields.io/badge/Written%20In-C-yellow?style=flat-square">
 </p>
 
-_This app is a [TXT](https://en.wikipedia.org/wiki/Text_file) reader that runs on the [NumWorks calculator](https://www.numworks.com), allowing users to open and read plain text files directly on their device. It provides a simple interface for navigating through text, making it ideal for viewing notes, documents, and other text-based content on the go._
+_This app is a **[TXT](https://en.wikipedia.org/wiki/Text_file) reader** that runs on the **[NumWorks Calculator](https://www.numworks.com)**, allowing users to open and read plain text files directly on their device. It provides a simple interface for navigating through text, making it ideal for viewing notes, documents, and other text-based content._
 
 ## Install the app
 
 To install this app, you'll need to:
-1. Download the latest `TXT-Reader.nwa` file from the [Releases](https://github.com/SaltyMold/TXT-Reader-for-Numworks/releases) page
-2. Choose a `txt` file you want to read on your calculator.
-3. Connect your NumWorks calculator to your computer using a USB cable.  
-4. Head to [my.numworks.com/apps](https://my.numworks.com/apps) to send the `nwa` file on your calculator along the `txt` file.
+1. Download the latest **`TXT-Reader.nwa` file** from the **[Releases](https://github.com/SaltyMold/TXT-Reader-for-Numworks/releases) page**
+2. Choose a **`txt` file** you want to read on your **calculator**.
+3. Connect your **NumWorks calculator** to your computer using a USB cable.  
+4. Head to **[my.numworks.com/apps](https://my.numworks.com/apps)** to send the **`nwa` file** on your calculator along the **`txt` file**.
 
 ## How to use the app
 
@@ -53,7 +53,7 @@ To install this app, you'll need to:
 
 ## Build the app
 
-To build this sample app, you will need to install the [embedded ARM toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain) and [Node.js](https://nodejs.org/en/) 18. The C SDK for Epsilon apps is shipped as an npm module called [nwlink](https://www.npmjs.com/package/nwlink) v0.0.16.
+To build this sample app, you will need to install the **[embedded ARM toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain)** and **[Node.js](https://nodejs.org/en/) 18**. The C SDK for Epsilon apps is shipped as an **npm module called [nwlink](https://www.npmjs.com/package/nwlink) v0.0.16**.
 
 ### Debian
 
@@ -119,16 +119,17 @@ cd TXT-Reader-for-Numworks
 make clean && make build
 ```
 
-You should now have a `output/app.nwa` file that you can distribute! Anyone can now install it on their calculator from the [NumWorks online uploader](https://my.numworks.com/apps).
+You should now have a **`output/app.nwa` file** that you can distribute! Anyone can now install it on their calculator from the **[NumWorks online uploader](https://my.numworks.com/apps)**.
 
 ## Build your own app
+
 To build your own app, start by cloning the repository:
 
 ```sh
 git clone https://github.com/SaltyMold/TXT-Reader-for-Numworks.git
 ```
-Inside the project, you'll find [eadk.h](https://github.com/numworks/epsilon/blob/master/eadk/include/eadk/eadk.h), which provides essential functions for interacting with the [calculator](https://en.wikipedia.org/wiki/NumWorks). Modify main.c to implement your own code.
-Additionally, make sure to include an icon.png with dimensions 55×56 pixels to serve as your app’s icon. Once your modifications are done, link the app with [nwlink](https://www.npmjs.com/package/nwlink) and enjoy your app!
+Inside the project, you'll find **`eadk.h`**, which provides **essential functions** for interacting with the **[calculator](https://en.wikipedia.org/wiki/NumWorks)**. Modify **`main.c`** to implement your **own code**.
+Additionally, make sure to include an **`icon.png`** with dimensions **55×56 pixels** to serve as your **app’s icon**. Once your modifications are done, link the app with **[nwlink](https://www.npmjs.com/package/nwlink)** and enjoy your app!
 
 ## Special thanks 
 
