@@ -45,11 +45,10 @@ To install this app, you'll need to:
       </table>
     </td>
     <td style="padding-left: 20px;">
-      <img src="https://cdn-icons-png.flaticon.com/256/32/32329.png" width="150" title="icon">
+      <img src="https://github.com/user-attachments/assets/632d2643-af72-4ed0-a10f-5eafbf255c7c" width="250" alt="TXT-Reader-Numworks">
     </td>
   </tr>
 </table>
-
 
 ## Build the app
 
