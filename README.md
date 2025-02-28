@@ -36,6 +36,7 @@ To build this sample app, you will need to install the [embedded ARM toolchain](
 ```sh
 sudo apt install -y build-essential git gcc-arm-none-eabi binutils-arm-none-eabi nodejs npm && npm install -g n && sudo n 18 && npm install -g nwlink@0.0.16
 git clone https://github.com/SaltyMold/TXT-Reader-for-Numworks.git
+cd TXT-Reader-for-Numworks
 make clean && make build
 ```
 
