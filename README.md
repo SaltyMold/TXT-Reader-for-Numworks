@@ -21,11 +21,35 @@ To install this app, you'll need to:
 4. Head to [my.numworks.com/apps](https://my.numworks.com/apps) to send the `nwa` file on your calculator along the `txt` file.
 
 ## How to use the app
-| Touche     | Action    |
-|------------|----------|
-| Back | Quit  |
-| Arrow Down | Down |
-| Arrow Up | Up |
+
+<table>
+  <tr>
+    <td>
+      <table>
+        <tr>
+          <th>Touche</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Back</td>
+          <td>Quit</td>
+        </tr>
+        <tr>
+          <td>Arrow Down</td>
+          <td>Down</td>
+        </tr>
+        <tr>
+          <td>Arrow Up</td>
+          <td>Up</td>
+        </tr>
+      </table>
+    </td>
+    <td style="padding-left: 20px;">
+      <img src="https://cdn-icons-png.flaticon.com/256/32/32329.png" width="150" title="icon">
+    </td>
+  </tr>
+</table>
+
 
 ## Build the app
 
