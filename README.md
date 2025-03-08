@@ -31,7 +31,7 @@ To install this app, you'll need to:
           <th>Action</th>
         </tr>
         <tr>
-          <td>Back</td>
+          <td>Home</td>
           <td>Quit</td>
         </tr>
         <tr>
