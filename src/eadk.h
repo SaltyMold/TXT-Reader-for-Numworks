@@ -14,6 +14,7 @@ static const eadk_color_t eadk_color_white = 0xFFFF;
 static const eadk_color_t eadk_color_red = 0xF800;
 static const eadk_color_t eadk_color_green = 0x07E0;
 static const eadk_color_t eadk_color_blue = 0x001F;
+static const eadk_color_t eadk_color_orange = 0xfda7;
 
 typedef struct {
   uint16_t x;
