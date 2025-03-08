@@ -1,11 +1,12 @@
 #include "eadk.h"
 
-const char eadk_app_name[] __attribute__((section(".rodata.eadk_app_name"))) = "TXT_READER";
+const char eadk_app_name[] __attribute__((section(".rodata.eadk_app_name"))) = "TXT-READER";
 const uint32_t eadk_api_level  __attribute__((section(".rodata.eadk_api_level"))) = 0;
 
 void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk_color_t bg) {
   eadk_point_t point = start_point;
-  const size_t max_line_length = 33; 
+  point.y += 16;
+  const size_t max_line_length = 30; 
   char line[max_line_length + 1]; 
   size_t line_length = 0; 
 
@@ -54,7 +55,7 @@ int main(int argc, char * argv[]) {
 
   while (true) {
     eadk_keyboard_state_t keyboard_state = eadk_keyboard_scan();
-    if (eadk_keyboard_key_down(keyboard_state, eadk_key_back)) {
+    if (eadk_keyboard_key_down(keyboard_state, eadk_key_home)) {
       break; 
     }
     if (eadk_keyboard_key_down(keyboard_state, eadk_key_down)) {
@@ -70,9 +71,16 @@ int main(int argc, char * argv[]) {
     }
 
     if (refresh_screen) {
-      eadk_display_push_rect_uniform(full_screen_rect, eadk_color_white); 
+      eadk_display_push_rect_uniform((eadk_rect_t){0, 18, 320, 222}, eadk_color_white); 
+
       if (eadk_external_data != NULL && eadk_external_data_size > 0) {
         draw_text(eadk_external_data, (eadk_point_t){0, -scroll_offset}, eadk_color_black, eadk_color_white);
+
+        eadk_rect_t titre = {0, 0, 320, 18};
+        eadk_display_push_rect_uniform(titre, eadk_color_orange);
+      
+        eadk_display_draw_string("TXT-READER", (eadk_point_t){125, 3}, false, eadk_color_white, eadk_color_orange);
+        
       } else {
         eadk_display_draw_string("No external data", (eadk_point_t){0, 0}, true, eadk_color_black, eadk_color_white);
       }
@@ -82,5 +90,5 @@ int main(int argc, char * argv[]) {
     eadk_timing_msleep(100); 
   }
 
-  return 0; // Terminer le programme
+  return 0; 
 }
