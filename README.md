@@ -65,6 +65,8 @@ make clean && make build
 
 ### Windows
 
+You can install MSYS2 with all dependencies preinstalled from my [C-App-Guide-for-Numworks](https://github.com/SaltyMold/C-App-Guide-for-Numworks) or install all manually with the instructions bellow.
+
 Install msys2 from [the MSYS2 Github](https://github.com/msys2/msys2-installer/releases/download/2025-02-21/msys2-x86_64-20250221.exe) and open the msys2.exe file.
 Download the .zip from [the Node Github](https://github.com/actions/node-versions/releases/download/18.20.7-13438827950/node-18.20.7-win32-x64.7z), and extract it.
 
