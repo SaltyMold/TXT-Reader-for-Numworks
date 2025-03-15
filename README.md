@@ -52,8 +52,6 @@ To install this app, you'll need to:
 
 ## Build the app
 
-For Windows, you can download MSYS2 with all requirements already installed on my [C-App-Guide-for-Numworks GitHub repo](https://github.com/SaltyMold/C-App-Guide-for-Numworks)
-
 ### Requirements:
 
 - **arm-none-eabi-gcc**
