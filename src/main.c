@@ -10,7 +10,7 @@ void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk
   const size_t max_line_length = 40; 
   char line[max_line_length + 1]; 
   size_t line_length = 0; 
-  int line_number = 1; // Initialize line number
+  int line_number = 1; 
 
   while (*text) {
     size_t word_end = line_length; 
@@ -31,14 +31,13 @@ void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk
     line[line_length] = '\0'; 
     eadk_display_draw_string(line, point, false, fg, bg);
 
-    // Draw line number to the right
     char line_number_str[10];
     snprintf(line_number_str, sizeof(line_number_str), "%d", line_number);
     eadk_display_draw_string(line_number_str, (eadk_point_t){EADK_SCREEN_WIDTH - 21, point.y}, false, fg, bg);
 
     point.y += 16; 
     line_length = 0; 
-    line_number++; // Increment line number
+    line_number++;
 
     while (*text == ' ') {
       text++;
@@ -53,7 +52,6 @@ void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk
     line[line_length] = '\0';
     eadk_display_draw_string(line, point, false, fg, bg);
 
-    // Draw line number to the right
     char line_number_str[10];
     snprintf(line_number_str, sizeof(line_number_str), "%d", line_number);
     eadk_display_draw_string(line_number_str, (eadk_point_t){EADK_SCREEN_WIDTH - 30, point.y}, false, fg, bg);
@@ -84,11 +82,11 @@ int main(int argc, char * argv[]) {
       refresh_screen = true; 
     }
     if (eadk_keyboard_key_down(keyboard_state, eadk_key_right)) {
-      scroll_offset += 160; // Advance by 10 lines
+      scroll_offset += 160; 
       refresh_screen = true; 
     }
     if (eadk_keyboard_key_down(keyboard_state, eadk_key_left)) {
-      scroll_offset -= 160; // Go back by 10 lines
+      scroll_offset -= 160; 
       if (scroll_offset < 0) {
         scroll_offset = 0; 
       }
