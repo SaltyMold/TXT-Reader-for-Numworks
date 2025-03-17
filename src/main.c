@@ -6,7 +6,7 @@ const uint32_t eadk_api_level  __attribute__((section(".rodata.eadk_api_level"))
 void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk_color_t bg) {
   eadk_point_t point = start_point;
   point.y += 16;
-  const size_t max_line_length = 30; 
+  const size_t max_line_length = 42; 
   char line[max_line_length + 1]; 
   size_t line_length = 0; 
 
@@ -27,7 +27,7 @@ void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk
     }
 
     line[line_length] = '\0'; 
-    eadk_display_draw_string(line, point, true, fg, bg);
+    eadk_display_draw_string(line, point, false, fg, bg);
     point.y += 16; 
     line_length = 0; 
 
@@ -42,7 +42,7 @@ void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk
 
   if (line_length > 0) {
     line[line_length] = '\0';
-    eadk_display_draw_string(line, point, true, fg, bg);
+    eadk_display_draw_string(line, point, false, fg, bg);
   }
 }
 
