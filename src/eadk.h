@@ -258,4 +258,9 @@ extern size_t eadk_external_data_size;
 bool eadk_usb_is_plugged();
 uint32_t eadk_random();
 
+// Aditional functions made by SaltyMold
+
+char* input(eadk_point_t point, bool draw_string, bool large_font);
+int input_int(eadk_point_t point, bool draw_string, bool large_font);
+
 #endif
