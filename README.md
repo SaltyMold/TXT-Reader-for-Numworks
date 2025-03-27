@@ -27,7 +27,7 @@ To install this app, you'll need to:
     <td>
       <table>
         <tr>
-          <th>Touche</th>
+          <th>Key</th>
           <th>Action</th>
         </tr>
         <tr>
@@ -41,6 +41,21 @@ To install this app, you'll need to:
         <tr>
           <td>Arrow Up</td>
           <td>Up</td>
+        </tr>
+        <tr>
+        <td>Arrow Right</td>
+          <td>Down 10 lines</td>
+        </tr>
+        <td>Arrow Left</td>
+          <td>Up 10 lines</td>
+        </tr>
+         <tr>
+          <td>Shift</td>
+          <td>Search</td>
+        </tr>
+        <tr>
+          <td>Alpha</td>
+          <td>Go to line</td>
         </tr>
       </table>
     </td>
