@@ -3,9 +3,7 @@
 const char eadk_app_name[] __attribute__((section(".rodata.eadk_app_name"))) = "TXT-READER";
 const uint32_t eadk_api_level  __attribute__((section(".rodata.eadk_api_level"))) = 0;
 
-
 int scroll_offset = 0;
-
 
 /*------------------------------------------------------------------------*/
 
@@ -65,6 +63,13 @@ void draw_text(const char *text, eadk_point_t start_point, eadk_color_t fg, eadk
 
 /*---------------------------------------------------------------------------*/
 
+void to_lowercase(const char* src, char* dest, size_t length) {
+  for (size_t i = 0; i < length; i++) {
+      dest[i] = tolower((unsigned char)src[i]);
+  }
+  dest[length] = '\0';
+}
+
 bool* search_in_external_data(const char* search_string, size_t* line_count) {
   if (eadk_external_data == NULL || eadk_external_data_size == 0 || search_string == NULL || strlen(search_string) == 0) {
       *line_count = 0;
@@ -72,40 +77,65 @@ bool* search_in_external_data(const char* search_string, size_t* line_count) {
   }
 
   const char* data = eadk_external_data;
-  *line_count = 1;
+  const size_t max_line_length = 40; // Longueur maximale d'une ligne
+  *line_count = 0;
+
+  // Compter les lignes virtuelles
+  size_t current_line_length = 0;
   for (size_t i = 0; i < eadk_external_data_size; i++) {
-      if (data[i] == '\n') {
+      current_line_length++;
+      if (data[i] == '\n' || current_line_length >= max_line_length) {
           (*line_count)++;
+          current_line_length = 0;
       }
   }
+  if (current_line_length > 0) {
+      (*line_count)++;
+  }
 
-  bool* apparitions = (bool*)calloc(*line_count, sizeof(bool)); 
+  bool* apparitions = (bool*)calloc(*line_count, sizeof(bool));
   if (apparitions == NULL) {
       *line_count = 0;
       return NULL;
   }
 
   size_t current_line = 0;
-  const char* line_start = data;
+  size_t line_start_index = 0;
+  current_line_length = 0;
+
   for (size_t i = 0; i <= eadk_external_data_size; i++) {
-      if (data[i] == '\n' || data[i] == '\0') {
-          size_t line_length = data + i - line_start;
+      current_line_length++;
+      if (data[i] == '\n' || current_line_length >= max_line_length || data[i] == '\0') {
+          size_t line_length = i - line_start_index;
           char* line = (char*)malloc(line_length + 1);
           if (line == NULL) {
               free(apparitions);
               *line_count = 0;
               return NULL;
           }
-          strncpy(line, line_start, line_length);
+          strncpy(line, &data[line_start_index], line_length);
           line[line_length] = '\0';
 
-          if (strstr(line, search_string) != NULL) {
+          // Convertir la ligne en minuscules
+          char* lower_line = (char*)malloc(line_length + 1);
+          if (lower_line == NULL) {
+              free(apparitions);
+              free(line);
+              *line_count = 0;
+              return NULL;
+          }
+          to_lowercase(line, lower_line, line_length);
+
+          // Rechercher la chaîne dans la ligne convertie
+          if (strstr(lower_line, search_string) != NULL) {
               apparitions[current_line] = true;
           }
 
           free(line);
-          line_start = data + i + 1;
+          free(lower_line);
+          line_start_index = i + 1;
           current_line++;
+          current_line_length = 0;
       }
   }
 
