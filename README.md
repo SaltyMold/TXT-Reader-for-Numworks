@@ -1,6 +1,6 @@
 <h1 align="center">TXT Reader for the Numworks Calculator</h1>
 <p align="center">
-    <img alt="Version" src="https://img.shields.io/badge/Version-0.0.5-blue?style=for-the-badge&color=blue">
+    <img alt="Version" src="https://img.shields.io/badge/Version-0.0.6-blue?style=for-the-badge&color=blue">
     <img alt="Stars" src="https://img.shields.io/github/stars/SaltyMold/TXT-Reader-for-Numworks?style=for-the-badge&color=magenta">
     <img alt="Forks" src="https://img.shields.io/github/forks/SaltyMold/TXT-Reader-for-Numworks?color=cyan&style=for-the-badge&color=purple">
     <img alt="License" src="https://img.shields.io/github/license/SaltyMold/TXT-Reader-for-Numworks?style=for-the-badge&color=blue">
@@ -64,6 +64,8 @@ To install this app, you'll need to:
     </td>
   </tr>
 </table>
+
+⚠️⚠️⚠️<strong>In version 0.0.6+, the TXT-Reader is hidden inside a periodic table. To access it, go to the Carbon element and press the number 9 five times.</strong>
 
 ## Build the app
 
@@ -158,3 +160,5 @@ Additionally, make sure to include an **`icon.png`** with dimensions **55×56 pi
 ## Special thanks 
 
 I followed the guide from [epsilon-sample-app-c](https://github.com/numworks/epsilon-sample-app-c) to build this app.
+
+In version 0.0.6+ the periodic table is based on the [nwagyu's periodic table app](https://github.com/nwagyu/periodic).
