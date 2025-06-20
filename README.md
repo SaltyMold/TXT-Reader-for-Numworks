@@ -15,7 +15,7 @@ _This app is a **[TXT](https://en.wikipedia.org/wiki/Text_file) reader** that ru
 > [!CAUTION]
 > This app is for educational use only. Do not use it to cheat. I am not responsible for any misuse or consequences.
 
-## Install the app
+⚙️## Install the app
 
 To install this app, you'll need to:
 1. Download the latest **`TXT-Reader.nwa` file** from the **[Releases](https://github.com/SaltyMold/TXT-Reader-for-Numworks/releases) page**
@@ -23,7 +23,7 @@ To install this app, you'll need to:
 3. Connect your **NumWorks calculator** to your computer using a USB cable.  
 4. Head to **[my.numworks.com/apps](https://my.numworks.com/apps)** to send the **`nwa` file** on your calculator along the **`txt` file**.
 
-## How to use the app
+📕## How to use the app
 
 <table>
   <tr>
@@ -70,7 +70,7 @@ To install this app, you'll need to:
 
 ⚠️⚠️⚠️<strong>In version 0.0.6+, the TXT-Reader is hidden inside a periodic table. To access it, go to the Carbon element and press the number 9 five times.</strong>
 
-## Build the app
+🛠️## Build the app
 
 ### Requirements:
 
@@ -160,7 +160,7 @@ git clone https://github.com/SaltyMold/TXT-Reader-for-Numworks.git
 Inside the project, you'll find **`eadk.h`**, which provides **essential functions** for interacting with the **[calculator](https://en.wikipedia.org/wiki/NumWorks)**. Modify **`main.c`** to implement your **own code**.
 Additionally, make sure to include an **`icon.png`** with dimensions **55×56 pixels** to serve as your **app’s icon**. Once your modifications are done, link the app with **[nwlink](https://www.npmjs.com/package/nwlink)** and enjoy your app!
 
-## Special thanks 
+🌟## Special thanks 
 
 I followed the guide from [epsilon-sample-app-c](https://github.com/numworks/epsilon-sample-app-c) to build this app.
 
