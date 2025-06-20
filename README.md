@@ -150,7 +150,7 @@ make clean && make build
 
 You should now have a **`output/app.nwa` file** that you can distribute! Anyone can now install it on their calculator from the **[NumWorks online uploader](https://my.numworks.com/apps)**.
 
-## Build your own app
+## 🛠️ Build your own app
 
 To build your own app, start by cloning the repository:
 
