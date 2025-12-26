@@ -10,7 +10,7 @@
     <img alt="Written In" src="https://img.shields.io/badge/Written%20In-C-yellow?style=flat-square">
 </p>
 
-_This app is a **TXT reader** that runs on the **[NumWorks Calculator](https://www.numworks.com)**.
+_This app is a **TXT reader** that runs on the **[NumWorks Calculator](https://www.numworks.com)**._
 
 > [!CAUTION]
 > This app is for educational use only. Do not use it to cheat. I am not responsible for any misuse or consequences.
