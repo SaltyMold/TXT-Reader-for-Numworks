@@ -44,16 +44,40 @@ bool is_alpha = false;
 eadk_keyboard_state_t state;
 
 
-void display_view_by_line(int line_number, int highlight_line) {
+void display_lines(int line_number, int highlight_line) {
     view_line_t lines[MAX_VISIBLE_LINES];
     int nb_lines = 0;
     int i = 0;
-    int current_logical_line = 0;
+	int current_logical_line = 0;
+	int current_view_line = 0;
 
-    while (i < (int)eadk_external_data_size && current_logical_line < line_number) {
-        if (eadk_external_data[i] == '\n') current_logical_line++;
-        i++;
-    }
+	while (i < (int)eadk_external_data_size && current_view_line < line_number) {
+		int len = 0;
+		while (i + len < (int)eadk_external_data_size &&
+			eadk_external_data[i + len] != '\n' &&
+			len < MAX_LINE_LEN) {
+			len++;
+		}
+
+		if (len == MAX_LINE_LEN &&
+			i + len < (int)eadk_external_data_size &&
+			eadk_external_data[i + len] != '\n') {
+			int back = len - 1;
+			while (back > 0 && !isspace((unsigned char)eadk_external_data[i + back])) back--;
+			if (back > 0) len = back;
+		}
+
+		i += len;
+		while (i < (int)eadk_external_data_size &&
+			(eadk_external_data[i] == ' ' || eadk_external_data[i] == '\t')) i++;
+
+		current_view_line++;
+
+		if (i < (int)eadk_external_data_size && eadk_external_data[i] == '\n') {
+			i++;
+			current_logical_line++;
+		}
+	}
 
     bool first_subline = true;
 
@@ -104,15 +128,63 @@ void display_view_by_line(int line_number, int highlight_line) {
 
         if (lines[j].is_first_wrap) {
             snprintf(num_buf, sizeof(num_buf), "%4d", lines[j].logical_line_number);
-            eadk_display_draw_string(num_buf, (eadk_point_t){290, 22 + j * 14},
-                                     false, eadk_color_black,
-                                     (highlight_line == lines[j].logical_line_number) ? eadk_color_orange : eadk_color_white);
+            eadk_display_draw_string(num_buf, (eadk_point_t){290, 22 + j * 14}, false, eadk_color_black, (highlight_line == lines[j].logical_line_number) ? eadk_color_orange : eadk_color_white);
         }
 
-        eadk_display_draw_string(tmp, (eadk_point_t){2, 22 + j * 14},
-                                 false, eadk_color_black,
-                                 (highlight_line == lines[j].logical_line_number) ? eadk_color_orange : eadk_color_white);
+        eadk_display_draw_string(tmp, (eadk_point_t){2, 22 + j * 14}, false, eadk_color_black, (highlight_line == lines[j].logical_line_number) ? eadk_color_orange : eadk_color_white);
     }
+}
+
+
+int get_subline_index(int target_line)
+{
+    int subline_index = 0;
+    int i = 0;
+    int current_logical_line = 0;
+
+    while (i < (int)eadk_external_data_size)
+    {
+        const char* line_start = eadk_external_data + i;
+        int len = 0;
+
+        while (i + len < (int)eadk_external_data_size && eadk_external_data[i + len] != '\n')
+            len++;
+
+        int remaining_len = len;
+        int offset = 0;
+
+        while (remaining_len > 0)
+        {
+            int chunk_len = remaining_len > MAX_LINE_LEN ? MAX_LINE_LEN : remaining_len;
+
+            if (chunk_len == MAX_LINE_LEN && remaining_len > MAX_LINE_LEN)
+            {
+                int back = chunk_len - 1;
+                while (back > 0 && !isspace((unsigned char)line_start[offset + back]))
+                    back--;
+                if (back > 0) chunk_len = back;
+            }
+
+            if (current_logical_line + 1 == target_line)
+            {
+                return subline_index;
+            }
+
+            remaining_len -= chunk_len;
+            offset += chunk_len;
+            subline_index++;
+
+			while (offset < len && (line_start[offset] == ' ' || line_start[offset] == '\t')) offset++;
+
+			remaining_len = len - offset;
+        }
+
+        i += len;
+        if (i < (int)eadk_external_data_size && eadk_external_data[i] == '\n') i++;
+        current_logical_line++;
+    }
+
+    return 0;
 }
 
 int count_lines_in_external_data(void) {
@@ -215,7 +287,7 @@ int main(int argc, char * argv[]) {
 
 	int nb_lines = count_lines_in_external_data();
 
-    int scroll_line = 0;
+    int scroll_index = 0;
 
     char input_buffer[16] = {0};
     bool is_search = false;
@@ -225,7 +297,7 @@ int main(int argc, char * argv[]) {
 
     eadk_display_push_rect_uniform(eadk_screen_rect, eadk_color_white);
     display_init(nb_lines);
-    display_view_by_line(scroll_line, -1);
+    display_lines(scroll_index, -1);
 
     while (1) {
         state = eadk_keyboard_scan();
@@ -248,27 +320,25 @@ int main(int argc, char * argv[]) {
 		}
 
         if (eadk_keyboard_key_down(state, eadk_key_down)) {
-            scroll_line += SCROLL_V_STEP;
-			if (scroll_line + MAX_VISIBLE_LINES - 2 > nb_lines) scroll_line = nb_lines - MAX_VISIBLE_LINES + 2;
-            display_view_by_line(scroll_line, is_search && found_count > 0 ? found_indexes[search_index] + 1 : -1);
+            scroll_index += SCROLL_V_STEP;
+            display_lines(scroll_index, is_search && found_count > 0 ? found_indexes[search_index] + 1 : -1);
             eadk_timing_msleep(100);
         }
         if (eadk_keyboard_key_down(state, eadk_key_up)) {
-            scroll_line -= SCROLL_V_STEP;
-            if (scroll_line < 0) scroll_line = 0;
-            display_view_by_line(scroll_line, is_search && found_count > 0 ? found_indexes[search_index] + 1 : -1);
+            scroll_index -= SCROLL_V_STEP;
+            if (scroll_index < 0) scroll_index = 0;
+            display_lines(scroll_index, is_search && found_count > 0 ? found_indexes[search_index] + 1 : -1);
             eadk_timing_msleep(100);
         }
         if (eadk_keyboard_key_down(state, eadk_key_right)) {
-            scroll_line += 10;
-			if (scroll_line + MAX_VISIBLE_LINES - 2 > nb_lines) scroll_line = nb_lines - MAX_VISIBLE_LINES + 2;
-            display_view_by_line(scroll_line, is_search && found_count > 0 ? found_indexes[search_index] + 1 : -1);
+            scroll_index += 10;
+            display_lines(scroll_index, is_search && found_count > 0 ? found_indexes[search_index] + 1 : -1);
             eadk_timing_msleep(100);
         }
 		if (eadk_keyboard_key_down(state, eadk_key_left)) {
-			scroll_line -= 10;
-			if (scroll_line < 0) scroll_line = 0;
-			display_view_by_line(scroll_line, is_search && found_count > 0 ? found_indexes[search_index] + 1 : -1);
+			scroll_index -= 10;
+			if (scroll_index < 0) scroll_index = 0;
+			display_lines(scroll_index, is_search && found_count > 0 ? found_indexes[search_index] + 1 : -1);
 			eadk_timing_msleep(100);
 		}
 
@@ -280,10 +350,10 @@ int main(int argc, char * argv[]) {
 			char text_buffer[64];
 			snprintf(text_buffer, sizeof(text_buffer), "%d of %d -> line %d", search_index + 1, found_count, found_indexes[search_index] + 1);
 			eadk_display_draw_string(text_buffer, (eadk_point_t){120, 224}, false, eadk_color_black, eadk_color_white);
-			display_view_by_line(scroll_line, found_indexes[search_index] + 1);
+			display_lines(scroll_index, found_indexes[search_index] + 1);
 
-			scroll_line = found_indexes[search_index]; 
-			display_view_by_line(scroll_line, found_indexes[search_index] + 1);
+			scroll_index = get_subline_index(found_indexes[search_index] + 1);
+			display_lines(scroll_index, found_indexes[search_index] + 1);
 
 			while (eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_ans));
 		}
@@ -296,10 +366,10 @@ int main(int argc, char * argv[]) {
 			char text_buffer[64];
 			snprintf(text_buffer, sizeof(text_buffer), "%d of %d -> line %d", search_index + 1, found_count, found_indexes[search_index] + 1);
 			eadk_display_draw_string(text_buffer, (eadk_point_t){120, 224}, false, eadk_color_black, eadk_color_white);
-			display_view_by_line(scroll_line, found_indexes[search_index] + 1);
+			display_lines(scroll_index, found_indexes[search_index] + 1);
 
-			scroll_line = found_indexes[search_index]; 
-			display_view_by_line(scroll_line, found_indexes[search_index] + 1);
+			scroll_index = get_subline_index(found_indexes[search_index] + 1);
+			display_lines(scroll_index, found_indexes[search_index] + 1);
 
 			while (eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_exe));
 		}
@@ -329,19 +399,19 @@ int main(int argc, char * argv[]) {
 			if (!is_search){
 				eadk_display_push_rect_uniform((eadk_rect_t){120, 224, 160, 16}, eadk_color_white);
 				eadk_display_draw_string("Search by typing", (eadk_point_t){120, 224}, false, eadk_color_black, eadk_color_white);
-				display_view_by_line(scroll_line, -1);
+				display_lines(scroll_index, -1);
 			}
 			else if (is_search && found_count > 0) {
 				eadk_display_push_rect_uniform((eadk_rect_t){120, 224, 160, 16}, eadk_color_white);
 				char text_buffer[64];
 				snprintf(text_buffer, sizeof(text_buffer), "%d of %d -> line %d", search_index + 1, found_count, found_indexes[search_index] + 1);
 				eadk_display_draw_string(text_buffer, (eadk_point_t){120, 224}, false, eadk_color_black, eadk_color_white);
-				display_view_by_line(scroll_line, found_indexes[search_index] + 1);
+				display_lines(scroll_index, found_indexes[search_index] + 1);
 			}
 			else {
 				eadk_display_push_rect_uniform((eadk_rect_t){120, 224, 160, 16}, eadk_color_white);
 				eadk_display_draw_string("No results found", (eadk_point_t){120, 224}, false, eadk_color_black, eadk_color_white);
-				display_view_by_line(scroll_line, -1);
+				display_lines(scroll_index, -1);
 			}
 
 			while (eadk_keyboard_scan() == state);
