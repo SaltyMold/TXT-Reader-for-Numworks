@@ -10,7 +10,7 @@
     <img alt="Written In" src="https://img.shields.io/badge/Written%20In-C-yellow?style=flat-square">
 </p>
 
-_This app is a **TXT reader** that runs on the **[NumWorks Calculator](https://www.numworks.com)**.
+_This app is a **TXT reader** that runs on the **[NumWorks Calculator](https://www.numworks.com)**._
 
 > [!CAUTION]
 > This app is for educational use only. Do not use it to cheat. I am not responsible for any misuse or consequences.
@@ -66,8 +66,8 @@ To install this app, you'll need to:
         </tr>
       </table>
     </td>
-    <td style="padding-left: 20px;">
-      <img src="https://github.com/user-attachments/assets/37822be4-1150-4278-823e-0245cda22fc0" width="150" alt="TXT-Reader-Numworks">
+    <td style="padding-left: 5px;">
+      <img src="https://github.com/user-attachments/assets/9fbada7b-20f2-403d-9446-986e8444aa5a" width="180" alt="TXT-Reader-Numworks">
     </td>
   </tr>
 </table>
