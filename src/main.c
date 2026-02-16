@@ -1,11 +1,11 @@
 #include "libs/eadk.h"
 #include "keyboard.h"
 
-#define SIMULATOR 0
+#define SIMULATOR 1
 // No storage for simulator
 // Simulator need keyboard scan to work
 
-#define PERIODIC 1
+#define PERIODIC 0
 // Hidden in periodic table
 
 #define SVG_FILE "txt-reader.svg"
@@ -131,7 +131,12 @@ void display_lines(int line_number, int highlight_line) {
             eadk_display_draw_string(num_buf, (eadk_point_t){290, 22 + j * 14}, false, eadk_color_black, (highlight_line == lines[j].logical_line_number) ? eadk_color_orange : eadk_color_white);
         }
 
-        eadk_display_draw_string(tmp, (eadk_point_t){2, 22 + j * 14}, false, eadk_color_black, (highlight_line == lines[j].logical_line_number) ? eadk_color_orange : eadk_color_white);
+        bool use_large_font = (lines[j].len > 0 && lines[j].start[0] == '#');
+        if (use_large_font) {
+            memmove(tmp, tmp + 1, strlen(tmp));
+        }
+
+        eadk_display_draw_string(tmp, (eadk_point_t){2, 22 + j * 14}, use_large_font, eadk_color_black, (highlight_line == lines[j].logical_line_number) ? eadk_color_orange : eadk_color_white);
     }
 }
 
@@ -267,7 +272,14 @@ void menu() {
 	while (!eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_ok) && !eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_back));
 }
 
+void test_font(){
+    eadk_display_draw_string("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", (eadk_point_t){0, 0}, false, eadk_color_black, eadk_color_white);
+    //eadk_display_draw_string("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", (eadk_point_t){0, 0}, true, eadk_color_black, eadk_color_white);
+    while (1) eadk_keyboard_scan();
+}
+
 int main(int argc, char * argv[]) {
+    test_font();
 
 	#if SIMULATOR
 	//menu();
