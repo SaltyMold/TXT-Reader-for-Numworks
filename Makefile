@@ -26,6 +26,8 @@ src = $(addprefix src/,\
 	libs/storage.c \
 	keyboard.c \
 	periodic.c \
+	assets/calculator.c \
+	settings.c \
 	main.c \
 )
 

@@ -1,26 +1,21 @@
 #include "libs/eadk.h"
 #include "keyboard.h"
 
-#define SIMULATOR 1
+#define SIMULATOR 0
 // No storage for simulator
 // Simulator need keyboard scan to work
 
-#define PERIODIC 0
-// Hidden in periodic table
-
-#define SVG_FILE "txt-reader.svg"
-
-#if !SIMULATOR 
+#include "shared.h"
 #include "libs/storage.h"
-#endif
-
-#if PERIODIC
 #include "periodic.h"
-const char eadk_app_name[] __attribute__((section(".rodata.eadk_app_name"))) = "Periodic";
-#else
-const char eadk_app_name[] __attribute__((section(".rodata.eadk_app_name"))) = "TXT-Reader";
-#endif
+#include "settings.h"
 
+const eadk_keyboard_state_t default_shortcut = (1ULL << eadk_key_ok) | (1ULL << eadk_key_back) | (1ULL << eadk_key_zero);
+
+eadk_keyboard_state_t saved_shortcut;
+
+
+const char eadk_app_name[] __attribute__((section(".rodata.eadk_app_name"))) = "Periodic";
 const uint32_t eadk_api_level  __attribute__((section(".rodata.eadk_api_level"))) = 0;
 
 extern const char* eadk_external_data;
@@ -256,46 +251,59 @@ int search_in_external_data(const char* word, int* found_indexes) {
     return found_count;
 }
 
-void menu() {
+void first_launch() {
 	eadk_display_push_rect_uniform(eadk_screen_rect, eadk_color_black);
-	eadk_display_draw_string("This screen will\nno longer show up.", (eadk_point_t){0, 0}, true, eadk_color_red, eadk_color_black);
-	eadk_display_draw_string("To access the txt reader you need to\ngo on the Carbon element\nand press the key \"9\" 5 times", (eadk_point_t){0, 40}, false, eadk_color_white, eadk_color_black);
-	eadk_display_draw_string("Use up/down to scroll", (eadk_point_t){0, 100}, false, eadk_color_white, eadk_color_black);
-	eadk_display_draw_string("Use left/right to scroll 10 lines", (eadk_point_t){0, 115}, false, eadk_color_white, eadk_color_black);
-	eadk_display_draw_string("Search by typing.", (eadk_point_t){0, 130}, false, eadk_color_white, eadk_color_black);
-	eadk_display_draw_string("Use Ans and EXE to scroll searched data", (eadk_point_t){0, 145}, false, eadk_color_white, eadk_color_black);
-	eadk_display_draw_string("Press BACK to quit the app.", (eadk_point_t){0, 160}, false, eadk_color_white, eadk_color_black);
-	eadk_display_draw_string("Press OK to continue", (eadk_point_t){0, 228}, false, eadk_color_white, eadk_color_black);
+	eadk_display_draw_string("This screen will\nno longer show up.",        (eadk_point_t){0, 0}, true, eadk_color_red, eadk_color_black);
 
-	for (int i = 0; i < 500; i++) eadk_timing_msleep(10);
+    eadk_display_draw_string("The default binding is OK + Back + Zero",     (eadk_point_t){0, 60}, false, eadk_color_green, eadk_color_black);
+	eadk_display_draw_string("Hold shift to change your binding to unlock", (eadk_point_t){0, 75}, false, eadk_color_white, eadk_color_black);	
+
+    eadk_display_draw_string("Use up/down to scroll",                       (eadk_point_t){0, 100}, false, eadk_color_white, eadk_color_black);
+	eadk_display_draw_string("Use left/right to scroll 10 lines",           (eadk_point_t){0, 115}, false, eadk_color_white, eadk_color_black);
+	eadk_display_draw_string("Search by typing",                            (eadk_point_t){0, 130}, false, eadk_color_white, eadk_color_black);
+	eadk_display_draw_string("Use Ans and EXE to scroll searched data",     (eadk_point_t){0, 145}, false, eadk_color_white, eadk_color_black);
+	eadk_display_draw_string("Press HOME to quit the app",                  (eadk_point_t){0, 160}, false, eadk_color_white, eadk_color_black);
+
+	eadk_display_draw_string("Press OK to continue",                        (eadk_point_t){0, 220}, false, eadk_color_white, eadk_color_black);
+
+	eadk_timing_msleep(2000);
 	
-	while (!eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_ok) && !eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_back));
+	while (!eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_ok));
 }
 
-void test_font(){
-    eadk_display_draw_string("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", (eadk_point_t){0, 0}, false, eadk_color_black, eadk_color_white);
-    //eadk_display_draw_string("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", (eadk_point_t){0, 0}, true, eadk_color_black, eadk_color_white);
-    while (1) eadk_keyboard_scan();
-}
+// void test_font(){
+//     eadk_display_draw_string("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", (eadk_point_t){0, 0}, false, eadk_color_black, eadk_color_white);
+//     //eadk_display_draw_string("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", (eadk_point_t){0, 0}, true, eadk_color_black, eadk_color_white);
+//     while (1) eadk_keyboard_scan();
+// }
 
 int main(int argc, char * argv[]) {
-    test_font();
+    //test_font();
 
-	#if SIMULATOR
-	//menu();
-	#else 
-	if (extapp_fileExists(SVG_FILE)) {
-		
-	}
-	else {
-		menu();
-		extapp_fileWrite(SVG_FILE, "", 1);
-	}	
-	#endif
+	#if SIMULATOR == 0
+    if (!extapp_fileExists(SAVE_FILE)) { // first run
+        first_launch();
+        char data_buf[sizeof(eadk_keyboard_state_t)];
+        memcpy(data_buf, &default_shortcut, sizeof(default_shortcut));
+        extapp_fileWrite(SAVE_FILE, data_buf, sizeof(eadk_keyboard_state_t));
+        saved_shortcut = default_shortcut;
+    }
+    else {
+        size_t file_size = 0;
+        const char *data = extapp_fileRead(SAVE_FILE, &file_size);
+        if (data != NULL && file_size == sizeof(eadk_keyboard_state_t)) {   
+            memcpy(&saved_shortcut, data, sizeof(saved_shortcut));
+        } else {
+            saved_shortcut = default_shortcut;
+            eadk_display_draw_string("Failed to read shortcut from file", (eadk_point_t){0, 0}, false, eadk_color_red, eadk_color_black);
+            eadk_timing_msleep(500);
+        }
+    }
+    #else
+    saved_shortcut = default_shortcut;
+    #endif
 
-	#if PERIODIC
-	periodic();
-	#endif
+    periodic();
 
 	int nb_lines = count_lines_in_external_data();
 
@@ -311,17 +319,25 @@ int main(int argc, char * argv[]) {
     display_init(nb_lines);
     display_lines(scroll_index, -1);
 
+    while (eadk_keyboard_scan() != 0);
+
     while (1) {
         state = eadk_keyboard_scan();
 
-        if (eadk_keyboard_key_down(state, eadk_key_back)) break;
+        if (eadk_keyboard_key_down(state, eadk_key_home)) break;
 
 		if (eadk_keyboard_key_down(state, eadk_key_shift)) {
 			is_shift = !is_shift;
 			is_alpha = false;
 			if (is_shift) eadk_display_draw_string("shift", (eadk_point_t){280, 3}, false, eadk_color_white, eadk_color_orange);
 			else eadk_display_push_rect_uniform((eadk_rect_t){280, 0, 40, 18}, eadk_color_orange);
-			while (eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_shift));
+
+			for (int i = 0; i < 500 && eadk_keyboard_key_down(eadk_keyboard_scan(), eadk_key_shift); ++i) {
+                eadk_timing_msleep(10);
+                if (i == 100) {
+                    if (settings()) return 0;
+                }
+            }
 		}
 		else if (eadk_keyboard_key_down(state, eadk_key_alpha)) {
 			is_alpha = !is_alpha;

@@ -1,4 +1,6 @@
 #include "libs/eadk.h"
+#include "shared.h"
+
 // https://github.com/nwagyu/periodic/
 
 #define LCD_HEIGHT_PX 222
@@ -235,27 +237,21 @@ void periodic() {
 	eadk_display_push_rect_uniform((eadk_rect_t){0, 0, 320, 18}, eadk_color_orange);
 	eadk_display_draw_string(" PERIODIC ", (eadk_point_t){125, 3}, false, eadk_color_white, eadk_color_orange);
 
-  int count = 0;
   char buf[128];
   bool partial_draw = false, redraw = true;
   int cursor_pos = 0;
   const int ATOM_NUMS = sizeof(atomsdefs) / sizeof(struct AtomDef);
   for (;;) {
     /*---------------------------------------------------------------------------------------------------*/
-    if (cursor_pos == 5) {
-      eadk_keyboard_state_t state = eadk_keyboard_scan();
-      if (eadk_keyboard_key_down(state, eadk_key_nine)) {
-        count++;
-      }
-      else {
-        count = 0;
-      }
 
-      if (count == 5) {
-        count = 0;
-        return;
-      }
+    eadk_keyboard_state_t keyboard_state = eadk_keyboard_scan();
+    if (keyboard_state == saved_shortcut) {
+      int i = 0;
+      for (; i < 100 && eadk_keyboard_scan() == saved_shortcut; ++i)
+        eadk_timing_msleep(5);
+      if (i >= 100) return;
     }
+
     /*---------------------------------------------------------------------------------------------------*/
     if (redraw) {
       if (partial_draw) {
@@ -310,7 +306,6 @@ void periodic() {
     } else if (event == eadk_event_up) {
       uint8_t curr_x = atomsdefs[cursor_pos].x;
       uint8_t curr_y = atomsdefs[cursor_pos].y;
-      bool updated = false;
 
       if (curr_y > 0 && curr_y <= 9) {
         for(uint8_t i = 0; i < ATOM_NUMS; i++) {
@@ -323,7 +318,6 @@ void periodic() {
     } else if (event == eadk_event_down) {
       uint8_t curr_x = atomsdefs[cursor_pos].x;
       uint8_t curr_y = atomsdefs[cursor_pos].y;
-      bool updated = false;
 
       if (curr_y >= 0 && curr_y < 9) {
         for (uint8_t i = 0; i < ATOM_NUMS; i++) {
