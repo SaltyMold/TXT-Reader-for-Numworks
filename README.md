@@ -72,8 +72,9 @@ To install this app, you'll need to:
   </tr>
 </table>
 
+
 > [!CAUTION]
-> In newer versions, the TXT-Reader is hidden inside a periodic table. To access it, go to the Carbon element and press the number 9 five times.
+> The TXT-Reader is hiden inside a periodic table. To access it, hold OK + Back + Zero. You can change this binding in the app by holding shift.
 
 ## 🛠️ Build the app
 
